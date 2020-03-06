@@ -13,8 +13,8 @@ import java.util.List;
 
 public class JdbcUserService implements UserService {
 
-    private Connection dbConnection;
     private ConnectionManager connectionManager;
+    private Connection dbConnection;
 
     public JdbcUserService(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
@@ -68,7 +68,6 @@ public class JdbcUserService implements UserService {
         }
 
         return result;
-
     }
 
     /**
@@ -85,6 +84,7 @@ public class JdbcUserService implements UserService {
             checkConnection();
 
             if (findByName(user.getUsername()) != null) {
+                System.out.println("Table error: User " + user.getUsername() + " exists");
                 return;
             }
 
@@ -93,16 +93,17 @@ public class JdbcUserService implements UserService {
             statement = dbConnection.createStatement();
 
             // create a query
-            String query = "INSERT INTO user(username, password, email, firstname, lastname, phone) VALUES ('" +
-                    user.getUsername() + "','" +
-                    user.getPassword() + "','" +
-                    user.getEmail() + "','" +
-                    user.getFirstName() + "','" +
-                    user.getLastName() + "','" +
-                    user.getPhone() + "');";
+            String query = "INSERT INTO user(username, password, email, firstname, lastname, phone) VALUES (" +
+                    "'" + user.getUsername() + "'," +
+                    "'" + user.getPassword() + "'," +
+                    "'" + user.getEmail() + "'," +
+                    "'" + user.getFirstName() + "'," +
+                    "'" + user.getLastName() + "'," +
+                    "'" + user.getPhone() + "');";
 
             // execute the query
             statement.executeUpdate(query);
+            System.out.println("Inserted user: " + user.getUsername());
 
         } catch (SQLException ex) {
             System.out.println("Database error: " + ex.getMessage());
@@ -155,7 +156,6 @@ public class JdbcUserService implements UserService {
         }
 
         return user;
-
     }
 
     /**
@@ -201,7 +201,6 @@ public class JdbcUserService implements UserService {
         }
 
         return users;
-
     }
 
     /**
@@ -250,7 +249,7 @@ public class JdbcUserService implements UserService {
         try {
             statement.close();
         } catch (SQLException ex) {
-            System.out.println("Error releasing DB resources: " + ex.getMessage());
+            System.out.println("Error releasing database resources: " + ex.getMessage());
         }
     }
 }
