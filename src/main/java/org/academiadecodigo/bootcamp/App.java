@@ -6,6 +6,7 @@ import org.academiadecodigo.bootcamp.controller.UserDetailsController;
 import org.academiadecodigo.bootcamp.controller.UserListController;
 import org.academiadecodigo.bootcamp.model.User;
 import org.academiadecodigo.bootcamp.persistence.ConnectionManager;
+import org.academiadecodigo.bootcamp.persistence.UserTable;
 import org.academiadecodigo.bootcamp.service.JdbcUserService;
 import org.academiadecodigo.bootcamp.service.UserService;
 import org.academiadecodigo.bootcamp.utils.Security;
@@ -28,7 +29,10 @@ public class App {
         UserDetailsView userDetailsView = new UserDetailsView();
         Prompt prompt = new Prompt(System.in, System.out);
 
-        ConnectionManager connectionManager = new ConnectionManager();
+        ConnectionManager connectionManager = new ConnectionManager("jdbc:sqlite:C:\\Users\\rmcor\\Desktop\\postAcademiaDeCodigo\\jdbc\\src\\main\\resources\\test.db");
+
+        UserTable userTable = new UserTable(connectionManager);
+        userTable.create();
 
         UserService userService = new JdbcUserService(connectionManager);
         userService.add(new User("rui", "ferrao@academiadecodigo.org", Security.getHash("academiadecodigo"),
