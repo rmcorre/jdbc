@@ -9,6 +9,8 @@
 .idea
 target
 out
+test.db
+.open
 
 # User-specific stuff
 .idea/**/workspace.xml
