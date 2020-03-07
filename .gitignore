@@ -9,7 +9,7 @@
 .idea
 target
 out
-test.db
+resources/test.db
 .open
 
 # User-specific stuff
